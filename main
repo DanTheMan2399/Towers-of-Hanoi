@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int one[99] , two[99] , three[99] ,amount, start , moveCounter = 0;
+
+int main(){
+    printf("Select amount of disks : ");
+    scanf(" %d" ,&amount);
+    for(int i=0;i < amount; i++){
+        one[i] = amount - i;
+        two[i] = three[i] = 0;
+    }
+    print();
+    printf("To start solving type 1 and Enter : ");
+    scanf(" %d" ,&start);
+    solve(amount,one,two,three);
+    scanf(" %d" ,&start);
+
+    return 0;
+}
+
+void solve(int disks,int a[99],int b[99],int c[99]){
+        if(disks == 1){
+            moveDisk(0,0,a,c);
+            print();
+            return;
+        }
+        solve(disks -1 ,a,c,b);
+        moveDisk(0,0,a,c);
+        print();
+        solve(disks -1 ,b,a,c);
+
+    return;
+}
+
+void moveDisk(int first ,int second , int a[99] ,int b[99]){
+    int temp;
+    if(a[first+1] == 0 || first == amount -1){
+        if(b[second] == 0){
+            temp = a[first];
+            a[first] = b[second];
+            b[second] = temp;
+            return;
+        }
+        moveDisk(first ,second + 1 , a , b);
+        return;
+    }
+    moveDisk(first + 1 , second , a ,b);
+
+    return;
+}
+
+void print(){
+    if(moveCounter > 0){
+        for(int m=0; m<10000;m++){
+            for(int n=0; n<30000;n++){}
+        }
+    }
+    for(int count = amount -1;count >= 0; count--){
+        for(int i =0; i<(amount-one[count]);i++){
+            printf(" ");
+        }
+        for(int i =0; i<one[count]; i++){
+            printf("_");
+        }
+        printf("|");
+        for(int i =0; i<one[count]; i++){
+            printf("_");
+        }
+        for(int i =0; i<(amount-one[count]);i++){
+            printf(" ");
+        }
+
+        printf(" ");
+
+        for(int i =0; i<(amount-two[count]);i++){
+            printf(" ");
+        }
+        for(int i =0; i<two[count]; i++){
+            printf("_");
+        }
+        printf("|");
+        for(int i =0; i<two[count]; i++){
+            printf("_");
+        }
+        for(int i =0; i<(amount-two[count]);i++){
+            printf(" ");
+        }
+
+        printf(" ");
+
+        for(int i =0; i<(amount-three[count]);i++){
+            printf(" ");
+        }
+        for(int i =0; i<three[count]; i++){
+            printf("_");
+        }
+        printf("|");
+        for(int i =0; i<three[count]; i++){
+            printf("_");
+        }
+        for(int i =0; i<(amount-three[count]);i++){
+            printf(" ");
+        }
+        printf("\n");
+    }
+    printf("\nNumber of moves : %d\n" , moveCounter);
+    moveCounter++;
+
+    return;
+}
